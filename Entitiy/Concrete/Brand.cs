@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Entitiy.Abstract;
+using Core.Entities;
 
 namespace Entitiy.Concrete
 {
