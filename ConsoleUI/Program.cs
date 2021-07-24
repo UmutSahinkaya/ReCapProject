@@ -15,7 +15,8 @@ namespace ConsoleUI
             CarManager carManager = new CarManager(new EfCarDal());
             foreach (var car in carManager.GetCarDetails())
             {
-                Console.WriteLine("Car Brand Id:"+car.BrandId+"+++++\n"+"Car CarId: "+car.Id+"+++++\n");
+                Console.WriteLine("Numarası => "+car.CarId+"\n olan \n"+car.ColorName+" Renkli\n"+car.BrandName+" Marka aracınız hazır.");
+                Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++");
             }
         }
     }
