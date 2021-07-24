@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Abstract;
+using Core.Utilities.Concrete;
 using DataAccess.Abstract;
 using Entitiy.Concrete;
 using Entitiy.DTOs;
@@ -18,50 +21,49 @@ namespace Business.Concrete
             _cars = cars;
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
             //Yönetimden Gelen İş Kodları
-            return _cars.GetAll();
+            return new SuccessDataResult<List<Car>>(_cars.GetAll(),Messages.CarListed);
 
         }
 
-        public List<Car> GetCarsByBrandId(int BrandId)
+        public IDataResult<List<Car>> GetCarsByBrandId(int BrandId)
         {
-            return _cars.GetAll(c => c.BrandId == BrandId);
+            return new SuccessDataResult<List<Car>>(_cars.GetAll(c => c.BrandId == BrandId));
         }
 
-        public List<Car> GetCarsByColorId(int ColorId)
+        public IDataResult<List<Car>> GetCarsByColorId(int ColorId)
         {
-            return _cars.GetAll(c => c.ColorId == ColorId);
+            return new SuccessDataResult<List<Car>>(_cars.GetAll(c => c.ColorId == ColorId));
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _cars.GetCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(_cars.GetCarDetails());
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
             if (car.Description.Length >= 2 && car.DailyPrice >= 0)
             {
-                _cars.Add(car);
-                Console.WriteLine("Araba Sisteme eklendi.");
+                return new ErrorResult(Messages.CarDescriptionInvalid);
             }
-            else
-            {
-                Console.WriteLine("Arabanın açıklaması en az iki harf ve günlük bedeli 0 dan farklı değer olmalı.");
-            }
-            
+            _cars.Add(car);
+            return new Result(true, Messages.CarAdded);
+
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
             _cars.Update(car);
+            return new Result(true,Messages.CarUpdated);
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
             _cars.Delete(car);
+            return new Result(true,Messages.CarDeleted);
         }
     }
 }
