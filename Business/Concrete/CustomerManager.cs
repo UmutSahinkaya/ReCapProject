@@ -12,40 +12,16 @@ namespace Business.Concrete
 {
     public class CustomerManager:ICustomerService
     {
-        private ICustomerDal _customerDal;
+        ICustomerDal _customerDal;
 
         public CustomerManager(ICustomerDal customerDal)
         {
             _customerDal = customerDal;
         }
-
-        public IDataResult<List<Customer>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IDataResult<Customer> GetById(int customerId)
-        {
-            throw new NotImplementedException();
-        }
-
         public IResult Add(Customer customer)
         {
             _customerDal.Add(customer);
             return new SuccessResult(Messages.CustomerAdded);
-        }
-
-        public IResult Update(Customer customer)
-        {
-            try
-            {
-                _customerDal.Update(customer);
-                return new SuccessResult(Messages.CustomerUpdated);
-            }
-            catch (Exception)
-            {
-                return new ErrorResult(Messages.CustomerCantUpdated);
-            }
         }
 
         public IResult Delete(Customer customer)
@@ -58,6 +34,30 @@ namespace Business.Concrete
             catch (Exception)
             {
                 return new ErrorResult(Messages.CustomerCantDeleted);
+            }
+        }
+
+        public IDataResult<List<Customer>> GetAll()
+        {
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
+
+        }
+
+        public IDataResult<Customer> GetByUserId(int id)
+        {
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.UserId == id), Messages.CustomerListed);
+        }
+
+        public IResult Update(Customer customer)
+        {
+            try
+            {
+                _customerDal.Update(customer);
+                return new SuccessResult(Messages.CustomerUpdated);
+            }
+            catch (Exception)
+            {
+                return new ErrorResult(Messages.CustomerCantUpdated);
             }
         }
     }

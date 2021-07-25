@@ -48,7 +48,7 @@ namespace Business.Concrete
             }
         }
 
-        public IResult Dalete(Brand brand)
+        public IResult Delete(Brand brand)
         {
             try
             {
