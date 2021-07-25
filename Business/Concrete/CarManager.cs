@@ -47,7 +47,7 @@ namespace Business.Concrete
         {
             if (car.Description.Length >= 2 && car.DailyPrice >= 0)
             {
-                return new ErrorResult(Messages.CarDescriptionInvalid);
+                return new ErrorResult(Messages.CarDescInvalidLetterLenght);
             }
             _cars.Add(car);
             return new Result(true, Messages.CarAdded);
